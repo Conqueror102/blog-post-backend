@@ -30,6 +30,22 @@ const register = async (req,res)=>{
     }
 }
 
+// get a blog for a specific user
+    const getAUserBlog = async (req,res)=>{
+        try{
+            const {userId} = req.params
+            const findUser = await blogModel.findById(userId);
+            if(!findUser){
+                return res.status(404).json({message:"user not found"});
+            }
+
+            return res.status(200).json({status:true, data:findUser.blogs})
+
+        }catch(err){
+            return res.status(500).json({message:"internal server error", error:err.message})
+        }
+    }
+
     // login 
 const login = async (req,res)=>{
     try {
@@ -137,4 +153,4 @@ const createBlog = async (req,res)=>{
         }
    };
 
-module.exports = {getAllBlog, register, login, createBlog,updateBlog, deleteBlog}
+module.exports = {getAllBlog, register, login, createBlog,updateBlog, deleteBlog,getAUserBlog}
