@@ -52,16 +52,18 @@ const login = async (req,res)=>{
         const {email, password} = req.body
         const ifUserExist = await blogModel.findOne({email});
         if(!ifUserExist){
-            return res.status(404).json({message:"invalid email or password"});
+            return res.status(404).json({message:"invalid email"});
         }
 
-        const comparePass = await argon2.verify(ifUserExist.password,password);
+        const comparePass = await argon2.verify(ifUserExist.password, password);
         if(!comparePass){
             return res.status(404).json({message:"incorrect password"});
         }
         return res.status(200).json({message:"login successfully",data:[ifUserExist.email, ifUserExist.username]})
     } catch (err) {
+        console.log(err)
         return res.status(500).json({message:"internal server error",error:err.message});
+        
     }
 };
 
