@@ -7,7 +7,7 @@ const {MONGODB_URL} = process.env
 const connectdb = async ()=>{
     try{
         await
-        connect(MONGODB_URL.toString());
+        connect(MONGODB_URL);
         console.log("server connected successfully");
     }catch(err){
         console.log("unable to connect",err.message);
